@@ -13,8 +13,10 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <unistd.h>
-#include <socket.h>
+//#include <socket.h>
+#include <unistd.h>
 
+using namespace std;
 
 int main( int argc, char* argv[])
 {
@@ -32,14 +34,15 @@ int main( int argc, char* argv[])
   
   char buf[90];
   char *hello = "You did it form client";
-  int len, n;
-   len = sizeof(cliaddr);
+  int n;
 
-  sendto(sockfd,(const char *)hello, strlen(hello), MSG_CONFIRM, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+  socklen_t len;
 
-    cout << "message sent";
+  sendto(sockfd,(const char *)hello, strlen(hello), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
-   n = recvfrom(sockfd,(char *) buf, 90, MSG_WAITALL,(struct server *) &servaddr, &len);
+  cout << "message sent";
+
+   n = recvfrom(sockfd,(char *) buf, 90, 0,(struct sockaddr *) &servaddr, &len);
    buf[n] = '\0';
 
   cout << "client" << buf;

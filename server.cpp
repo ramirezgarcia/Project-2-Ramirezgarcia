@@ -12,6 +12,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -32,8 +33,10 @@ int main(int argc, char* argv[])
   
   char buf[90];
   char *hello = "You did it form server";
-  int len, n;
+  int n;
+  socklen_t len;
   len = sizeof(cliaddr);
+
 
    n = recvfrom(sockfd,(char *) buf, 90, MSG_WAITALL,(struct sockaddr *) &cliaddr, &len);
 
@@ -41,7 +44,7 @@ int main(int argc, char* argv[])
 
   cout << "client" << buf;
 
-  sendto(sockfd,(const char *)hello, strlen(hello), MSG_CONFIRM, (const struct sockaddr *) &cliaddr, len);
+  sendto(sockfd,(const char *)hello, strlen(hello), 0, (const struct sockaddr *) &cliaddr, len);
   cout << "message sent";
 
 
